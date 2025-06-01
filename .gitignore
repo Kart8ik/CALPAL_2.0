@@ -1,0 +1,43 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Vite build output
+dist/
+dist-ssr/ # if using SSR
+
+# Vite cache directory (optional, but good to ignore)
+.vite/
+
+# Temporary files
+*.local
+
+# Editor directories and files
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+Thumbs.db
+
+# Environment variables file
+.env
+.env.*
+!.env.example
+
+# Coverage directory
+coverage/
