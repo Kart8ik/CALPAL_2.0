@@ -18,6 +18,9 @@ import { Label } from "@/components/ui/label";
 import apiRequest from '@/ApiRequest';
 import background from '@/assets/landing-section/background.svg';
 
+
+const apiUrl = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/users`;
+
 // Placeholder for Check icon if lucide-react is not yet installed/imported
 const CheckIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -38,7 +41,7 @@ const YourTasks = () => {
     if (userData && userData.tasks) {
       setTodayTasks(userData.tasks.filter(task => task.date === formatDateToLocalYYYYMMDD(new Date())));
     }
-  },[userData]);
+  },[userData, isLoading]);
 
   // Early return for loading state
   if (isLoading) {
@@ -92,6 +95,7 @@ const YourTasks = () => {
         await getUserData(authUser); // Refetch userData to sync all pages
       }
     } catch (error) {
+      console.error('Error adding task:', error);
     }
   };
 
