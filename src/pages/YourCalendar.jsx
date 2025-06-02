@@ -209,15 +209,15 @@ const YourCalendar = () => {
                     styles={calendarStyles}
                     className="rounded-md border shadow w-full h-full flex flex-col"
                     classNames={{
-                        root: "p-3",
-                        month_caption: "flex justify-center px-1 relative items-center w-full",
+                        root: "p-2",
+                        month_caption: "flex justify-center relative items-center w-full",
                         caption_label: "text-md font-medium",
                         nav: "flex flex-row items-center justify-between",
                         button_previous: "flex items-center justify-start border-border border-1 shadow-sm",
                         button_next: "flex items-center justify-end border-border border-1 shadow-sm",
                         chevron: "fill-foreground",
                         months: "flex flex-col",
-                        month: "flex flex-col space-y-2",
+                        month: "flex flex-col ",
 
                         month_grid: "flex flex-col w-full border-collapse",
                         weekdays: "flex w-full",      
