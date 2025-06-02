@@ -43,23 +43,48 @@ const YourTasks = () => {
     }
   },[userData, isLoading]);
 
-  // Early return for loading state
+  // Early return for loading state from context (initial auth check)
   if (isLoading) {
     return (
       <div className="flex flex-col flex-1 items-center justify-center w-full p-4 text-center">
-        <p className="text-lg">Loading...</p>
+        <p className="text-lg">Loading user information...</p>
       </div>
     );
   }
 
-  // Early return if no user data
-  if (!userData && !isLoading) {
+  // If not loading, but no authUser, then prompt login/register
+  if (!authUser) {
     return (
       <div className="flex flex-col flex-1 items-center justify-center w-full p-4 text-center">
         <p className="text-lg">Please log in or sign up to view your tasks.</p>
         <div className="mt-4 flex gap-4">
           <Button onClick={() => navigate('/login')}>Login</Button>
           <Button onClick={() => navigate('/register')}>Register</Button>
+        </div>
+      </div>
+    );
+  }
+  
+  // If authUser exists, but userData is not yet available (and context is not loading)
+  // This state can occur for new users whose data is still being provisioned.
+  if (authUser && !userData) {
+    return (
+      <div className="flex flex-col flex-1 items-center justify-center w-full p-4 text-center">
+        <p className="text-lg">Finalizing your account setup. Please wait a moment...</p>
+        {/* Optionally, you could add a retry button or an automatic refresh after a few seconds here */}
+      </div>
+    );
+  }
+
+  // If we reach here, authUser exists and userData should also exist.
+  // this is a fallback, ideally this shouldnt run lol, this is only for clear user experience
+  // though the above check (authUser && !userData) should catch it.
+  if (!userData) { 
+    return (
+      <div className="flex flex-col flex-1 items-center justify-center w-full p-4 text-center">
+        <p className="text-lg">Could not load your task data. Please try refreshing the page.</p>
+        <div className="mt-4 flex gap-4">
+          <Button onClick={() => window.location.reload()}>Refresh</Button>
         </div>
       </div>
     );

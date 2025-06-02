@@ -15,12 +15,12 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/auth/fireauth';
 import { toast } from 'sonner';
 import apiRequest from '@/ApiRequest';
 import { ThemeToggle } from '@/components/theme-toggle';
 import background from '@/assets/landing-section/background.svg'; // Import the background image
+import { useContext } from 'react'; // Make sure useContext is imported
+import AuthContext from '@/context/Context';
 
 // In a file where you make API calls
 const apiUrl = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/users`;
@@ -57,6 +57,7 @@ const formSchema = z.object({
 
 const RegisterPage = () => {
   const navigate = useNavigate(); 
+  const { registerUserWithEmailAndPassword } = useContext(AuthContext);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -94,14 +95,15 @@ const RegisterPage = () => {
 
   const onSubmit = async (values) => {
     try {
-      // Create Firebase user
-      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      // Use the context function for registration
+      const userCredential = await registerUserWithEmailAndPassword(values.email, values.password);
       const user = userCredential.user;
 
       // Register user details in your backend (MongoDB via API)
       const res = await register(user, values);
+
       // If both are successful, show success and navigate
-      toast.success("Registration successful! Login to continue.");
+      toast.success("Registration successful! Please login.");
       navigate('/login');
 
     } catch (error) {

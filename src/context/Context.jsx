@@ -3,6 +3,13 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/auth/fireauth';
 import apiRequest from '@/ApiRequest';
 
+// Import Firebase auth functions that will be used
+import { 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    signOut
+} from 'firebase/auth';
+
 const AuthContext = createContext();
 const apiUrl = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/api/users`;
 
@@ -14,20 +21,21 @@ export const AuthContextProvider = ({ children }) => {
 
     //get user data from api
     const getUserData = async (user) => {
-        try {
-            const options = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            const res = await apiRequest(`${apiUrl}/${user.uid}`, options);
-            setUserData(res);
-            return res; // Return the response so we can use it in the effect
-        } catch (error) {
-            throw error;
-        }
-    }
+         try {
+              const options = {
+                  method: 'GET',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }
+             }
+             // Return the response directly
+             return await apiRequest(`${apiUrl}/${user.uid}`, options);
+         } catch (error) {
+             // Log the error or handle it more specifically if needed
+             // console.error("Error fetching user data:", error); // Keep this if you want error logging
+             throw error; // Re-throw to be caught by the useEffect or calling function
+         }
+     }
 
     const formatDateToLocalYYYYMMDD = (date) => {
         const year = date.getFullYear();
@@ -41,18 +49,17 @@ export const AuthContextProvider = ({ children }) => {
         let isMounted = true; // For cleanup
         
         const unsub = onAuthStateChanged(auth, async (user) => {
-            if (!isMounted) return; // Don't update state if component is unmounted
+            if (!isMounted) return; 
             
             setIsLoading(true);
             
             try {
                 if (user) {
                     setAuthUser(user);
-                    const userDataResult = await getUserData(user);
+                    const userDataResult = await getUserData(user); 
                     
                     if (isMounted) {
-                        // Only update state if component is still mounted
-                        setUserData(userDataResult);
+                        setUserData(userDataResult); 
                     }
                 } else {
                     if (isMounted) {
@@ -62,7 +69,7 @@ export const AuthContextProvider = ({ children }) => {
                 }
             } catch (error) {
                 if (isMounted) {
-                    setAuthUser(null);
+                    setAuthUser(null); 
                     setUserData(null);
                 }
             } finally {
@@ -77,24 +84,70 @@ export const AuthContextProvider = ({ children }) => {
             isMounted = false;
             unsub();
         };
-    }, []); // Empty dependency array since we only want this to run once on mount
+    }, []); 
 
-    // Debug effect to log state changes
-    useEffect(() => {
-    }, [authUser, userData, isLoading]);
+    // --- NEW AUTH FUNCTIONS ---
+    const registerUserWithEmailAndPassword = async (email, password) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            if (user) {
+                setAuthUser(user);
+                setIsLoading(true); 
+                const data = await getUserData(user);
+                setUserData(data);
+                setIsLoading(false);
+            }
+            return userCredential;
+        } catch (error) {
+            setAuthUser(null);
+            setUserData(null);
+            setIsLoading(false);
+            throw error;
+        }
+    };
+
+    const loginUserWithEmailAndPassword = async (email, password) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            if (user) {
+                setAuthUser(user);
+                setIsLoading(true); 
+                const data = await getUserData(user);
+                setUserData(data);
+                setIsLoading(false);
+            }
+            return userCredential;
+        } catch (error) {
+            setAuthUser(null); 
+            setUserData(null);
+            setIsLoading(false);
+            throw error;
+        }
+    };
 
     const logout = async () => {
         try {
-            await auth.signOut(); // Firebase signOut
-            // onAuthStateChanged will handle setting authUser and userData to null
+            await signOut(auth); 
         } catch (error) {
-            // Optionally, re-throw the error or handle it as needed
             throw error;
         }
     };
 
     return (
-        <AuthContext.Provider value={{ authUser, userData, setUserData, isLoading, getUserData, formatDateToLocalYYYYMMDD, logout, currentGroupId, setCurrentGroupId }}>
+        <AuthContext.Provider value={{ 
+            authUser, 
+            userData, 
+            setUserData, 
+            isLoading, 
+            formatDateToLocalYYYYMMDD, 
+            logout, 
+            currentGroupId, 
+            setCurrentGroupId,
+            registerUserWithEmailAndPassword,
+            loginUserWithEmailAndPassword
+        }}>
             {children}
         </AuthContext.Provider>
     );

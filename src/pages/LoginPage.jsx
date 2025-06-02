@@ -15,11 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form" // Import Form components
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/auth/fireauth'; 
 import { toast } from 'sonner';
 import { ThemeToggle } from '@/components/theme-toggle';
 import background from '@/assets/landing-section/background.svg'; // Import the background image
+
+// Import AuthContext to use the login function
+import { useContext } from 'react'; // Make sure useContext is imported
+import AuthContext from '@/context/Context';
 
 // Define Zod schema for validation
 const formSchema = z.object({
@@ -42,13 +44,15 @@ const LoginPage = () => {
   })
 
   const navigate = useNavigate();
+  // Get the login function from AuthContext
+  const { loginUserWithEmailAndPassword } = useContext(AuthContext);
   
   // Handle form submission
   const onSubmit = async (values) => { // Make onSubmit async
     try {
-      // Attempt to sign in the user with Firebase
-      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
-      const user = userCredential.user;
+      // Attempt to sign in the user using the context function
+      const userCredential = await loginUserWithEmailAndPassword(values.email, values.password);
+      // const user = userCredential.user; // user object is available if needed
       
       toast.success("Login successful! Redirecting...");
       navigate('/yourtasks'); // Navigate to tasks page on successful login
