@@ -13,17 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -282,9 +271,7 @@ const GroupsCalendar = () => {
       fontWeight: '900'
     },
     hasOnlyMemberTask: {
-      borderColor: 'var(--primary)', // Using HSL as an example for primary color variable
-      borderWidth: '5px',
-      borderStyle: 'solid',
+      boxShadow: 'inset 0 0 0 5px var(--primary)'
     }
   };
   const formatWeekdayName = (day, options) => new Date(day).toLocaleDateString(options?.locale, { weekday: 'short' });
@@ -309,23 +296,32 @@ const GroupsCalendar = () => {
                     disabled={isFetchingGroupData || !currentGroupData} // Disable calendar while fetching or if no group data
                     className="rounded-md border shadow w-full h-full flex flex-col"
                     classNames={{
-                        root: "flex flex-col h-full",
-                        months: "flex flex-col flex-1",
-                        month: "flex flex-col h-full flex-1",
-                        table: "w-full h-full border-collapse",
-                        weekdays: "flex w-full mt-10",
-                        weekday: "flex-1 text-muted-foreground rounded-md font-normal text-[0.8rem] text-center",
-                        week: "flex w-full mt-2",
-                        day: "h-12 w-full text-center p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 flex items-center justify-center border border-border flex-1",
-                        day_button: "h-full w-full flex items-center justify-center p-2 text-base hover:bg-accent hover:text-accent-foreground rounded-md",
-                        selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                        today: "bg-accent text-accent-foreground",
-                        outside: "text-muted-foreground opacity-50",
-                        disabled: "text-muted-foreground opacity-50",
-                        range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
-                        hidden: "invisible",
-                        groupTaskDay: "group-task-day",
-                        memberTaskDay: "member-task-day"
+                        root: "p-3",
+                        month_caption: "flex justify-center py-2 px-1 relative items-center w-full mb-2",
+                        caption_label: "text-sm font-medium",
+                        nav: "flex flex-row items-center justify-between",
+                        button_previous: "flex items-center justify-start top-2 h-7 w-7 p-0 border border-input bg-background text-foreground rounded-sm shadow-sm ",
+                        button_next: "flex items-center justify-end top-2 h-7 w-7 p-0 border border-input bg-background text-foreground rounded-sm shadow-sm ",
+                        months: "flex flex-col",
+                        month: "flex flex-col space-y-2",
+
+                        month_grid: "flex flex-col w-full border-collapse",
+                        weekdays: "flex w-full",      
+                        weekday: "flex-1 px-1 py-1.5 text-muted-foreground font-normal text-[0.8rem] text-center",
+                        
+                        week: "flex w-full items-stretch", 
+                        day: "flex-1 m-1 min-w-8 p-0 relative hover:bg-primary hover:text-primary-foreground",       // This is the cell (td) - REMOVED bg-primary
+
+                        day_button: "w-full h-full min-w-8 p-3 text-base font-normal flex items-center justify-center border border-border rounded-none", 
+                        selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground", 
+                        today: "bg-primary text-primary-foreground", // REMOVED bg-primary
+                        outside: "text-muted-foreground opacity-50 rounded-none border border-border hover:text-accent-foreground", // REMOVED bg-card, hover:bg-accent/50
+                        disabled: "text-muted-foreground opacity-50 bg-card rounded-none border border-border", // Kept bg-card for disabled as it's a distinct state
+                        hidden: "invisible", 
+                        range_start: "day-range-start rounded-none", 
+                        range_end: "day-range-end rounded-none", 
+                        range_middle: "aria-selected:text-accent-foreground rounded-none", // REMOVED aria-selected:bg-accent
+                        
                     }}
                     modifiers={modifiers}
                     modifiersStyles={modifiersStyles}
