@@ -2,6 +2,8 @@
 
 A Website that helps you organize your tasks everyday with a built in calendar and also create groupa to schedule and plan over multiple people, see when your group members are free to plan effectively all while keeping things needed private.
 
+Backend at https://github.com/Kart8ik/calpal-backend
+
 ---
 
 ## Tech Stack
