@@ -17,6 +17,7 @@ import img11 from '@/assets/landing-section/img-11.svg';
 import img12 from '@/assets/landing-section/img-12.svg';
 import img13 from '@/assets/landing-section/img-13.svg';
 import background from '@/assets/landing-section/background.svg';
+import darkBackground from '@/assets/landing-section/dark-background.svg';
 
 const featurePoints = [
   {
@@ -242,11 +243,16 @@ const LandingPage = () => {
       <img 
         src={background} 
         alt="Background Pattern"
-        className="fixed top-0 left-0 w-full h-full object-cover z-0"
+        className="fixed top-0 left-0 w-full h-full object-cover z-0 dark:hidden"
+      />
+      <img 
+        src={darkBackground} 
+        alt="Background Pattern"
+        className="fixed top-0 left-0 w-full h-full object-cover z-0 hidden dark:block"
       />
 
       {/* Navbar - Z-50 - Ensure navbar and other content have a higher z-index and a background to be visible over the new image */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-card/80 backdrop-blur-sm border-b">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-card border-b">
         <Link to="/" className="text-3xl md:text-xl font-semibold">CalPal</Link>
         <div className="flex items-center space-x-2">
           <ThemeToggle />
@@ -262,9 +268,14 @@ const LandingPage = () => {
         <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 sm:mb-8">
           Your last stop for the best task tracking companion.
         </p>
+        <div className="flex flex-col items-center justify-center sm:flex-row gap-4">
         <Button variant="outline" size="lg" className="text-lg font-semibold py-3 px-6 sm:py-4 sm:px-8" asChild>
           <Link to="/register">Sign Up</Link>
         </Button>
+        <Button variant="outline" size="lg" className="text-lg font-semibold py-3 px-6 sm:py-4 sm:px-8" asChild>
+          <Link to="/blog">Blog - Building CalPal</Link>
+        </Button>
+        </div>
       </div>
 
       {/* Spacer for Welcome Section */}

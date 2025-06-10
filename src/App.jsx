@@ -11,10 +11,11 @@ import GroupsCalendar from '@/pages/GroupsCalendar';
 import LandingPage from '@/pages/LandingPage';
 import MainLayout from '@/components/MainLayout';
 import MobileBottomBar from '@/components/mobilebar';
+import Blog from '@/pages/Blog';
 
 const ConditionalMobileBar = () => {
   const location = useLocation();
-  const noMobileBarPaths = ['/', '/login', '/register'];
+  const noMobileBarPaths = ['/', '/login', '/register','/blog'];
   if (noMobileBarPaths.includes(location.pathname)) {
     return null;
   }
@@ -25,6 +26,7 @@ function AppContent() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/blog" element={<Blog />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/yourtasks" element={<MainLayout><YourTasks /></MainLayout>} />

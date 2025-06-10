@@ -18,6 +18,7 @@ import {
 import { toast } from 'sonner';
 import { ThemeToggle } from '@/components/theme-toggle';
 import background from '@/assets/landing-section/background.svg'; // Import the background image
+import darkBackground from '@/assets/landing-section/dark-background.svg';
 
 // Import AuthContext to use the login function
 import { useContext } from 'react'; // Make sure useContext is imported
@@ -90,7 +91,12 @@ const LoginPage = () => {
           <img 
             src={background} 
             alt="Background" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover dark:hidden"
+          />
+          <img 
+            src={darkBackground} 
+            alt="Background" 
+            className="w-full h-full object-cover hidden dark:block"
           />
         </div>
 

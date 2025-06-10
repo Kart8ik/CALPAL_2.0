@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import apiRequest from '@/ApiRequest';
 import { ThemeToggle } from '@/components/theme-toggle';
 import background from '@/assets/landing-section/background.svg'; // Import the background image
+import darkBackground from '@/assets/landing-section/dark-background.svg';
 import { useContext } from 'react'; // Make sure useContext is imported
 import AuthContext from '@/context/Context';
 
@@ -143,7 +144,12 @@ const RegisterPage = () => {
           <img 
             src={background} 
             alt="Background" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover dark:hidden"
+          />
+          <img 
+            src={darkBackground} 
+            alt="Background" 
+            className="w-full h-full object-cover hidden dark:block"
           />
         </div>
 
