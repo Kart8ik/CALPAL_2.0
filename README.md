@@ -1,6 +1,6 @@
 # CalPal - Your Task and Group Scheduling Companion
 
-A Website that helps you organize your tasks everyday with a built in calendar and also create groupa to schedule and plan over multiple people, see when your group members are free to plan effectively all while keeping things needed private.
+A Website that helps you organize your tasks every day with a built-in calendar and also create groups to schedule and plan with multiple people, see when your group members are free to plan effectively, all while keeping things needed private.
 
 Backend at https://github.com/Kart8ik/calpal-backend
 
@@ -10,9 +10,9 @@ Backend at https://github.com/Kart8ik/calpal-backend
 
 - Frontend - ReactJS, HTML, TailwindCSS, ShadCN UI
 - Backend - ExpressJS, NodeJS
-- DataBase - MongoDB (no-sql)
+- Database - MongoDB (NoSQL)
 - Hosting - Vercel (Frontend), Render (Backend), MongoDB Atlas (Database)
-- Authenticatication - Firebase
+- Authentication - Firebase
 
 ---
 
@@ -20,7 +20,7 @@ Backend at https://github.com/Kart8ik/calpal-backend
 
 1. **Secure Firebase Authentication**
     
-    Login with email and password — auth is safely handled by Firebase, completely separate from your main app data.
+    Log in with email and password — auth is safely handled by Firebase, completely separate from your main app data.
     
 2. **Daily Task Management**
     
